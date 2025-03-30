@@ -11,7 +11,7 @@ function showCurrentDate() {
     const hours = currentDate.getHours();
     const minutes = currentDate.getMinutes();
     
-    const msg = `Today is ${month} ${day}, ${year}, ${weekday}. The current time is ${hours>= 12 ? hours - 12 : hours}:${minutes} ${hours >= 12 ? "PM" : "AM"}.`;
+    const msg = `Today is ${month} ${day}, ${year}, ${weekday}. <br>The current time is ${hours>= 12 ? hours - 12 : hours}:${minutes} ${hours >= 12 ? "PM" : "AM"}.`;
 
-    document.getElementById("current-date").innerText = msg;
+    document.getElementById("current-date").innerHTML = msg;
 }
