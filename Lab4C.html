@@ -5,13 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab4C</title>
     <link rel="stylesheet" href="Lab4C.css">
-    <script src="Lab4C.js" defer></script>
+    <script src="Lab4C.js" defer></script> <!--defer the script to load after the HTML-->
 </head>
 <body>
     <h1>Lab4C - JavaScript</h1>
 
     <button onclick="showCurrentDate()">Show Current Date</button>
     <p id="current-date"></p>
+
+    <h2>Add Student</h2>
+    <form id="studentForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name">
+        <br><br>
+        <label for="age">Age:</label><br>
+        <input type="number" id="age" name="age">
+        <br><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email">
+        <br><br>
+        <label for="course">Course:</label><br>
+        <select id="course" name="course">
+            <option value="" disabled selected>Select a Course</option>
+            <option value="BA Food Appreciation">BA Food Appreciation</option>
+            <option value="BA Applied Poetry of the Future">BA Applied Poetry of the Future </option>
+            <option value="BS Computer Repair Shop">BS Computer Repair Shop</option>
+            <option value="BS Video Gaming">BS Video Gaming</option>
+            <option value="BS Installing and Downloading">BS Installing and Downloading</option>
+            
+        </select>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Student List</h3>
+    <ul id="studentsNiNiko"></ul
 
 </body>
 </html>
