@@ -99,3 +99,9 @@ function generateStudentNumber() {
     } while (studentList.some(student => student.studentNumber === studentNumber));
     return studentNumber;
 }
+
+//<!-- Search Student -->
+
+
+
+//<!-- Display Students -->
