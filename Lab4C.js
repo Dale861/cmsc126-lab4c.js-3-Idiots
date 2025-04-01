@@ -9,13 +9,20 @@ function showCurrentDate() {
     const weekday = weekdays[currentDate.getDay()];
     const hours = currentDate.getHours();
     const minutes = currentDate.getMinutes().toString().padStart(2, "0");
+    let hr;
+ 
+    if (hours > 12) {
+         hr = hours - 12;
+    } else if (hours === 0) {
+         hr = 12;
+    }else{
+         hr = hours;
+    }
+     
+    const msg = `Today is ${month} ${day}, ${year}, ${weekday}. <br>The current time is ${hr}:${minutes} ${hours >= 12 ? "PM" : "AM"}.`;
+        document.getElementById("current-date").innerHTML = msg;
+    }
 
-    let hr = hours % 12 || 12;  // Converts 0 -> 12
-    const period = hours >= 12 ? "PM" : "AM";
-
-    const msg = `Today is ${month} ${day}, ${year}, ${weekday}. <br>The current time is ${hr}:${minutes} ${period}.`;
-    document.getElementById("current-date").innerHTML = msg;
-}
 
 // Array to store students
 let studentList = [];
@@ -43,7 +50,8 @@ function addStudent(event) {
         alert("Invalid Format: Please enter your full name (First Last).");
         return;
     }
-
+    // sa example mo sa ppt sir mayara to document.getElementById('usernameError').textContent = 'error chuchu'
+     //wala ko to sir kay ga gamit lng ko return. paano to ga work imo sir if wala return?
     if (age < 18) {
         alert("You're too young, enroll in high school first.");
         return;
@@ -74,8 +82,10 @@ function addStudent(event) {
 
     alert(`Student ${name} has been added with Student Number: ${studentNumber}`);
 
-    // Display Student
-    displayStudents();
+    const studentsNiNiko = document.getElementById("studentsNiNiko");
+    const listItem = document.createElement("li");
+    listItem.innerHTML = `<strong>${name}</strong>{${studentNumber}}, ${age} years old, studying <em>${course}</em> (${email})`;
+    studentsNiNiko.appendChild(listItem)
 
     // Clear form fields
     document.getElementById("studentForm").reset();
@@ -87,50 +97,60 @@ function generateStudentNumber() {
     const year = new Date().getFullYear().toString();
     let studentNumber;
     do {
-        const studentId = Math.floor(Math.random() * 10000) + 1;
-        studentNumber = year + studentId.toString().padStart(5, "0");
+        const studentId = Math.floor(Math.random() * 10000) + 1; // Random number between 1 and 10000
+         studentNumber = year + studentId.toString().padStart(5, "0"); // Format as YYYY-XXXXX
     } while (studentList.some(student => student.studentNumber === studentNumber));
     return studentNumber;
 }
 
-// Display Students in List
-function displayStudents(filteredStudents = studentList) {
-    const studentsNiNiko = document.getElementById("studentsNiNiko");
-    studentsNiNiko.innerHTML = ""; // Clear the list
-
-    filteredStudents.forEach(student => {
-        const listItem = document.createElement("li");
-        listItem.innerHTML = `<strong>${student.name}</strong> {${student.studentNumber}}, ${student.age} years old, studying <em>${student.course}</em> (${student.email})`;
-        studentsNiNiko.appendChild(listItem);
-    });
-}
 
 // Search Student
 document.getElementById("searchForm").addEventListener("submit", function(event) {
     event.preventDefault();
     
-    const searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
+    const searchInput = document.getElementById("searchInput");
+    const searchQuery = searchInput.value.trim().toLowerCase();
+    const searchResults = document.getElementById("searchResults"); // New container for search results
+
+    // Clear previous search results
+    searchResults.innerHTML = "";
 
     if (!searchQuery) {
-        alert("Please enter a name or student number to search.");
+        searchResults.innerHTML = "<p>Please enter a name or student number to search.</p>";
         return;
     }
 
-    // Declare filteredStudents before using it
     let filteredStudents = studentList.filter(student =>
         student.name.toLowerCase().includes(searchQuery) || student.studentNumber.includes(searchQuery)
     );
 
     if (filteredStudents.length === 0) {
-        alert("No student found.");
-        displayStudents(studentList);  // Show all students again
-    } else {
-        displayStudents(filteredStudents);
+        searchResults.innerHTML = "<p>No student found.</p>";
+        return;
     }
+
+    // Display search result in structured format
+    searchResults.innerHTML = `<h3>Student Found:</h3>`;
+
+    filteredStudents.forEach(student => {
+        const studentDiv = document.createElement("div");
+        studentDiv.innerHTML = `
+            <p><strong>Student Number:</strong> ${student.studentNumber}</p>
+            <p><strong>Name:</strong> ${student.name}</p>
+            <p><strong>Age:</strong> ${student.age}</p>
+            <p><strong>UP Mail:</strong> ${student.email}</p>
+            <p><strong>Course:</strong> ${student.course}</p>
+            <hr>
+        `;
+        searchResults.appendChild(studentDiv);
+    });
 });
+
+// Automatically reset when the user clears the search input
 document.getElementById("searchInput").addEventListener("input", function() {
     if (this.value.trim() === "") {
-        displayStudents(studentList);
+        document.getElementById("searchResults").innerHTML = ""; // Clear search results
+        displayStudents(studentList); // Show all students again
     }
 });
 
