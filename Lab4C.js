@@ -84,7 +84,7 @@ function addStudent(event) {
 
     const studentsNiNiko = document.getElementById("studentsNiNiko");
     const listItem = document.createElement("li");
-    listItem.innerHTML = `<strong>${name}</strong>{${studentNumber}}, ${age} years old, studying <em>${course}</em> (${email})`;
+    listItem.innerHTML = `<strong>${name} </strong>{${studentNumber}}, ${age} years old, studying <em>${course}</em> (${email})`;
     studentsNiNiko.appendChild(listItem)
 
     // Clear form fields
@@ -156,3 +156,45 @@ document.getElementById("searchInput").addEventListener("input", function() {
 
 
 //<!-- Display Students -->
+function display_list() {
+    const studentsContainer = document.getElementById("studentsContainer");
+    studentsContainer.innerHTML = "";
+
+    if (studentList.length === 0) {
+        studentsContainer.innerHTML = "<p>No students available.</p>";
+        return;
+    }
+
+    const table = document.createElement("table");
+    table.border = "1";
+    
+    const headerRow = document.createElement("tr");
+    headerRow.innerHTML = "<th>Student Number</th><th>Name</th><th>Age</th><th>UP Mail</th><th>Course</th>";
+    table.appendChild(headerRow);
+
+    studentList.forEach(student => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${student.studentNumber}</td>
+            <td>${student.name}</td>
+            <td>${student.age}</td>
+            <td>${student.email}</td>
+            <td>${student.course}</td>
+        `;
+        table.appendChild(row);
+    });
+
+    studentsContainer.appendChild(table);
+}
+
+const displayAllButton = document.createElement("button");
+displayAllButton.textContent = "Display All";
+displayAllButton.addEventListener("click", display_list);
+
+document.body.appendChild(displayAllButton); 
+
+document.body.appendChild(document.createElement("br"));
+const studentsContainer = document.createElement("div");
+studentsContainer.id = "studentsContainer";
+document.body.appendChild(studentsContainer);
+
