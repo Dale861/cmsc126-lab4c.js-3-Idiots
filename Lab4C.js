@@ -105,15 +105,14 @@ function generateStudentNumber() {
 
 
 // Search Student
-document.getElementById("searchForm").addEventListener("submit", function(event) {
+document.getElementById("searchForm").addEventListener("submit", find_student);
+function find_student(event) {
     event.preventDefault();
     
     const searchInput = document.getElementById("searchInput");
     const searchQuery = searchInput.value.trim().toLowerCase();
     const searchResults = document.getElementById("searchResults"); // New container for search results
 
-    // Clear previous search results
-    searchResults.innerHTML = "";
 
     if (!searchQuery) {
         searchResults.innerHTML = "<p>Please enter a name or student number to search.</p>";
@@ -144,16 +143,15 @@ document.getElementById("searchForm").addEventListener("submit", function(event)
         `;
         searchResults.appendChild(studentDiv);
     });
-});
+};
 
 // Automatically reset when the user clears the search input
 document.getElementById("searchInput").addEventListener("input", function() {
     if (this.value.trim() === "") {
         document.getElementById("searchResults").innerHTML = ""; // Clear search results
-        displayStudents(studentList); // Show all students again
+
     }
 });
-
 
 //<!-- Display Students -->
 function display_list() {
