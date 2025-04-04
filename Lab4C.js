@@ -1,4 +1,4 @@
-function showCurrentDate() {
+function timeNow() {
     const currentDate = new Date();
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -39,31 +39,33 @@ function addStudent(event) {
     const email = document.getElementById("email").value.trim();
     const course = document.getElementById("course").value;
 
+
+
     // Validation
     if (!name || !age || !email || !course) {
         alert("Please fill in all fields.");
-        return;
+        
     }
 
     const namePattern = /^[a-zA-Z\s]+ [a-zA-Z\s]+$/;
     if (!namePattern.test(name)) {
         alert("Invalid Format: Please enter your full name (First Last).");
-        return;
+        
     }
     // sa example mo sa ppt sir mayara to document.getElementById('usernameError').textContent = 'error chuchu'
      //wala ko to sir kay ga gamit lng ko return. paano to ga work imo sir if wala return?
     if (age < 18) {
         alert("You're too young, enroll in high school first.");
-        return;
+        
     } else if (age > 99) {
         alert("You're too old, rest now.");
-        return;
+        
     }
 
     const emailPattern = /^[a-zA-Z0-9]+@up\.edu\.ph$/;
     if (!emailPattern.test(email)) {
         alert("Invalid email format: Please enter a valid UP Mail (Name123@up.edu.ph).");
-        return;
+        
     }
 
     // Create Student Object
@@ -74,11 +76,12 @@ function addStudent(event) {
         email,
         course
     };
+    //ipagwa, create before add student
 
     // Add to Student List
     studentList.push(student);
     console.log(studentList);
-    setTimeout(() => displayStudents(), 100);
+  
 
     alert(`Student ${name} has been added with Student Number: ${studentNumber}`);
 
@@ -131,18 +134,29 @@ function find_student(event) {
     // Display search result in structured format
     searchResults.innerHTML = `<h3>Student Found:</h3>`;
 
-    filteredStudents.forEach(student => {
-        const studentDiv = document.createElement("div");
-        studentDiv.innerHTML = `
-            <p><strong>Student Number:</strong> ${student.studentNumber}</p>
-            <p><strong>Name:</strong> ${student.name}</p>
-            <p><strong>Age:</strong> ${student.age}</p>
-            <p><strong>UP Mail:</strong> ${student.email}</p>
-            <p><strong>Course:</strong> ${student.course}</p>
-            <hr>
+    const studentsContainer = document.getElementById("studentsContainer");
+    studentsContainer.innerHTML = "";
+
+    const table = document.createElement("table");
+    table.border = "1";
+
+    const headerColumn = document.createElement("td");
+    headerColumn.innerHTML = "<th>Student Number</th><th>Name</th><th>Age</th><th>UP Mail</th><th>Course</th>";
+    table.appendChild(headerColumn);
+
+    studentList.forEach(student => {
+        const column = document.createElement("td");
+        column.innerHTML = `
+            <tr>${student.studentNumber}</tr>
+            <tr>${student.name}</tr>
+            <tr>${student.age}</tr>
+            <tr>${student.email}</tr>
+            <tr>${student.course}</tr>
         `;
-        searchResults.appendChild(studentDiv);
+        table.appendChild(column);
+        console.log(studentList);
     });
+    searchResults.appendChild(table); // Append the table to the search results container
 };
 
 // Automatically reset when the user clears the search input
