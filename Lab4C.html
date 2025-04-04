@@ -6,6 +6,13 @@
     <title>Lab4C</title>
     <link rel="stylesheet" href="Lab4C.css">
     <script src="Lab4C.js" defer></script> <!--defer the script to load after the HTML-->
+    <style>
+        .errorMSG {
+            color: red;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
     <h1>Lab4C - JavaScript</h1>
@@ -15,14 +22,18 @@
 
     <h2>Add Student</h2>
     <form id="studentForm"><!-- use onsubmit -->
+        <p id="allFieldsError" class="errorMSG"></p>
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name">
+        <span id="nameError" class="errorMSG"></span>
         <br><br>
         <label for="age">Age:</label><br>
         <input type="number" id="age" name="age">
+        <span id="ageError" class="errorMSG"></span>
         <br><br>
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email">
+        <span id="emailError" class="errorMSG"></span>
         <br><br>
         <label for="course">Course:</label><br>
         <select id="course" name="course">
@@ -32,8 +43,8 @@
             <option value="BS Computer Repair Shop">BS Computer Repair Shop</option>
             <option value="BS Video Gaming">BS Video Gaming</option>
             <option value="BS Installing and Downloading">BS Installing and Downloading</option>
-            
         </select>
+        <span id="courseError" class="errorMSG"></span>
         <br><br>
         <button type="submit">Submit</button>
     </form>

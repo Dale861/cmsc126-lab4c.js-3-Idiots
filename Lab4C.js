@@ -9,29 +9,29 @@ function timeNow() {
     const weekday = weekdays[currentDate.getDay()];
     const hours = currentDate.getHours();
     const minutes = currentDate.getMinutes().toString().padStart(2, "0");
-    let hr;
- 
-    if (hours > 12) {
-         hr = hours - 12;
-    } else if (hours === 0) {
-         hr = 12;
-    }else{
-         hr = hours;
-    }
+    let hr = hours % 12 || 12;
      
     const msg = `Today is ${month} ${day}, ${year}, ${weekday}. <br>The current time is ${hr}:${minutes} ${hours >= 12 ? "PM" : "AM"}.`;
         document.getElementById("current-date").innerHTML = msg;
     }
 
+// Create Student Object
+function Student(studentNumber, name, age, email, course) {
+    this.studentNumber = studentNumber;
+    this.name = name;       
+    this.age = age;
+    this.email = email;
+    this.course = course;
+};
 
-// Array to store students
 let studentList = [];
 
-// Add Student Event Listener
-document.getElementById("studentForm").addEventListener("submit", addStudent);
+document.getElementById("studentForm").addEventListener("submit", add_student);
 
-function addStudent(event) {
+function add_student(event) {
     event.preventDefault();
+
+    let valid = true;
 
     const studentNumber = generateStudentNumber();
     const name = document.getElementById("name").value.trim();
@@ -39,46 +39,47 @@ function addStudent(event) {
     const email = document.getElementById("email").value.trim();
     const course = document.getElementById("course").value;
 
-
-
     // Validation
     if (!name || !age || !email || !course) {
-        alert("Please fill in all fields.");
-        
+        valid = false;
+        document.getElementById("allFieldsError").textContent = "Please fill out all fields.";
+    }else {
+        document.getElementById("allFieldsError").textContent = ""; 
     }
 
     const namePattern = /^[a-zA-Z\s]+ [a-zA-Z\s]+$/;
     if (!namePattern.test(name)) {
-        alert("Invalid Format: Please enter your full name (First Last).");
-        
+        valid = false;
+        document.getElementById("nameError").textContent = "Please enter a valid name (FirstName LastName).";
+    }else {
+        document.getElementById("nameError").textContent = ""; 
     }
-    // sa example mo sa ppt sir mayara to document.getElementById('usernameError').textContent = 'error chuchu'
-     //wala ko to sir kay ga gamit lng ko return. paano to ga work imo sir if wala return?
+    
     if (age < 18) {
-        alert("You're too young, enroll in high school first.");
-        
+        valid = false;
+        document.getElementById("ageError").textContent = "You must be at least 18 years old to register.";
     } else if (age > 99) {
-        alert("You're too old, rest now.");
-        
+        valid = false;
+        document.getElementById("ageError").textContent = "You're too old, rest now."; 
+    } else {
+        document.getElementById("ageError").textContent = ""; 
     }
 
     const emailPattern = /^[a-zA-Z0-9]+@up\.edu\.ph$/;
     if (!emailPattern.test(email)) {
-        alert("Invalid email format: Please enter a valid UP Mail (Name123@up.edu.ph).");
-        
+        valid = false;
+        document.getElementById("emailError").textContent = "Invalid email format: Please enter a valid UP Mail (Name123@up.edu.ph).";
+    }else {
+        document.getElementById("emailError").textContent = ""; 
     }
 
-    // Create Student Object
-    const student = {
-        studentNumber,
-        name,
-        age,
-        email,
-        course
-    };
-    //ipagwa, create before add student
+    if (!valid) {
+        return; 
+    }
 
-    // Add to Student List
+    const student = new Student(studentNumber, name, age, email, course);
+
+    // Add to studentList
     studentList.push(student);
     console.log(studentList);
   
