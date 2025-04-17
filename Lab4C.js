@@ -16,7 +16,7 @@ function timeNow() {
     }
 
 // Create Student Object
-function Student(studentNumber, name, age, email, course) {
+function STUDENT(studentNumber, name, age, email, course) {
     this.studentNumber = studentNumber;
     this.name = name;       
     this.age = age;
@@ -77,7 +77,7 @@ function add_student(event) {
         return; 
     }
 
-    const student = new Student(studentNumber, name, age, email, course);
+    const student = new STUDENT(studentNumber, name, age, email, course);
 
     // Add to studentList
     studentList.push(student);
@@ -86,10 +86,10 @@ function add_student(event) {
 
     alert(`Student ${name} has been added with Student Number: ${studentNumber}`);
 
-    const studentsNiNiko = document.getElementById("studentsNiNiko");
-    const listItem = document.createElement("li");
-    listItem.innerHTML = `<strong>${name} </strong>{${studentNumber}}, ${age} years old, studying <em>${course}</em> (${email})`;
-    studentsNiNiko.appendChild(listItem)
+    // const studentsNiNiko = document.getElementById("studentsNiNiko");
+    // const listItem = document.createElement("li");
+    // listItem.innerHTML = `<strong>${name} </strong>{${studentNumber}}, ${age} years old, studying <em>${course}</em> (${email})`;
+    // studentsNiNiko.appendChild(listItem)
 
     // Clear form fields
     document.getElementById("studentForm").reset();
@@ -132,32 +132,42 @@ function find_student(event) {
         return;
     }
 
-    // Display search result in structured format
-    searchResults.innerHTML = `<h3>Student Found:</h3>`;
+// Display search result in structured format
+searchResults.innerHTML = `
+    <h3>Student Found:</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Student Number</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>UP Mail</th>
+                <th>Course</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+    </table>
+`;
 
-    const studentsContainer = document.getElementById("studentsContainer");
-    studentsContainer.innerHTML = "";
+// Display search result in structured format
+searchResults.innerHTML = `<h3>Student Found:</h3>`;
 
+filteredStudents.forEach(student => {
     const table = document.createElement("table");
     table.border = "1";
+    table.innerHTML = `
+        <tr><th>Student Number</th><td>${student.studentNumber}</td></tr>
+        <tr><th>Name</th><td>${student.name}</td></tr>
+        <tr><th>Age</th><td>${student.age}</td></tr>
+        <tr><th>UP Mail</th><td>${student.email}</td></tr>
+        <tr><th>Course</th><td>${student.course}</td></tr>
+    `;
 
-    const headerColumn = document.createElement("td");
-    headerColumn.innerHTML = "<th>Student Number</th><th>Name</th><th>Age</th><th>UP Mail</th><th>Course</th>";
-    table.appendChild(headerColumn);
+    searchResults.appendChild(table);
+});
 
-    studentList.forEach(student => {
-        const column = document.createElement("td");
-        column.innerHTML = `
-            <tr>${student.studentNumber}</tr>
-            <tr>${student.name}</tr>
-            <tr>${student.age}</tr>
-            <tr>${student.email}</tr>
-            <tr>${student.course}</tr>
-        `;
-        table.appendChild(column);
-        console.log(studentList);
-    });
-    searchResults.appendChild(table); // Append the table to the search results container
+
 };
 
 // Automatically reset when the user clears the search input
